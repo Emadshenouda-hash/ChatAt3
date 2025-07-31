@@ -150,7 +150,7 @@ exports.handler = async (event, context) => {
     const { type, id } = event.queryStringParameters || {};
 
     // 👇 Correct path restored for your actual folder structure
-    const basePath = path.join(process.cwd(), "src", "data");
+    const basePath = path.join(__dirname, "..", "..", "src", "data");
 
     if (type === "articles") {
       const articlesPath = path.join(basePath, "articles");
