@@ -4,8 +4,6 @@ const matter = require("gray-matter");
 
 // Helper function to process markdown content
 function processMarkdown(content) {
-  // For now, we'll return the raw markdown content
-  // In a production environment, you might want to process it to HTML
   return content;
 }
 
@@ -16,7 +14,7 @@ function generateIdFromPath(filename) {
   for (let i = 0; i < name.length; i++) {
     const char = name.charCodeAt(i);
     hash = (hash << 5) - hash + char;
-    hash = hash & hash; // Convert to 32-bit integer
+    hash = hash & hash;
   }
   return Math.abs(hash);
 }
@@ -40,46 +38,25 @@ function readMarkdownFiles(dirPath, type) {
           const content = fs.readFileSync(filePath, "utf8");
           const { data, content: markdownContent } = matter(content);
 
-          // Create item based on type
           let item;
 
           if (type === "articles") {
             item = {
               id: generateIdFromPath(file),
               title: {
-                en:
-                  data.language === "en"
-                    ? data.title
-                    : `Article ${generateIdFromPath(file)}`,
-                ar:
-                  data.language === "ar"
-                    ? data.title
-                    : `مقال ${generateIdFromPath(file)}`,
+                en: data.language === "en" ? data.title : `Article ${generateIdFromPath(file)}`,
+                ar: data.language === "ar" ? data.title : `مقال ${generateIdFromPath(file)}`,
               },
               content: {
-                en:
-                  data.language === "en"
-                    ? markdownContent
-                    : "Content available in Arabic only",
-                ar:
-                  data.language === "ar"
-                    ? markdownContent
-                    : "المحتوى متوفر باللغة الإنجليزية فقط",
+                en: data.language === "en" ? markdownContent : "Content available in Arabic only",
+                ar: data.language === "ar" ? markdownContent : "المحتوى متوفر باللغة الإنجليزية فقط",
               },
               excerpt: {
-                en:
-                  data.language === "en"
-                    ? data.excerpt
-                    : "Excerpt available in Arabic only",
-                ar:
-                  data.language === "ar"
-                    ? data.excerpt
-                    : "المقتطف متوفر باللغة الإنجليزية فقط",
+                en: data.language === "en" ? data.excerpt : "Excerpt available in Arabic only",
+                ar: data.language === "ar" ? data.excerpt : "المقتطف متوفر باللغة الإنجليزية فقط",
               },
               author: data.author || "ChatAT Team",
-              date: data.date
-                ? new Date(data.date).toISOString().split("T")[0]
-                : new Date().toISOString().split("T")[0],
+              date: data.date ? new Date(data.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
               category: data.category || "Faith",
               featured: false,
               image: data.image || "/api/placeholder/600/400",
@@ -90,39 +67,19 @@ function readMarkdownFiles(dirPath, type) {
             item = {
               id: generateIdFromPath(file),
               title: {
-                en:
-                  data.language === "en"
-                    ? data.title
-                    : `Blog Post ${generateIdFromPath(file)}`,
-                ar:
-                  data.language === "ar"
-                    ? data.title
-                    : `مقال مدونة ${generateIdFromPath(file)}`,
+                en: data.language === "en" ? data.title : `Blog Post ${generateIdFromPath(file)}`,
+                ar: data.language === "ar" ? data.title : `مقال مدونة ${generateIdFromPath(file)}`,
               },
               content: {
-                en:
-                  data.language === "en"
-                    ? markdownContent
-                    : "Content available in Arabic only",
-                ar:
-                  data.language === "ar"
-                    ? markdownContent
-                    : "المحتوى متوفر باللغة الإنجليزية فقط",
+                en: data.language === "en" ? markdownContent : "Content available in Arabic only",
+                ar: data.language === "ar" ? markdownContent : "المحتوى متوفر باللغة الإنجليزية فقط",
               },
               excerpt: {
-                en:
-                  data.language === "en"
-                    ? data.excerpt
-                    : "Excerpt available in Arabic only",
-                ar:
-                  data.language === "ar"
-                    ? data.excerpt
-                    : "المقتطف متوفر باللغة الإنجليزية فقط",
+                en: data.language === "en" ? data.excerpt : "Excerpt available in Arabic only",
+                ar: data.language === "ar" ? data.excerpt : "المقتطف متوفر باللغة الإنجليزية فقط",
               },
               author: data.author || "ChatAT Team",
-              date: data.date
-                ? new Date(data.date).toISOString().split("T")[0]
-                : new Date().toISOString().split("T")[0],
+              date: data.date ? new Date(data.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
               category: data.category || "Stories",
               featured: false,
               image: data.image || "/api/placeholder/600/400",
@@ -133,39 +90,19 @@ function readMarkdownFiles(dirPath, type) {
             item = {
               id: generateIdFromPath(file),
               title: {
-                en:
-                  data.language === "en"
-                    ? data.title
-                    : `Book ${generateIdFromPath(file)}`,
-                ar:
-                  data.language === "ar"
-                    ? data.title
-                    : `كتاب ${generateIdFromPath(file)}`,
+                en: data.language === "en" ? data.title : `Book ${generateIdFromPath(file)}`,
+                ar: data.language === "ar" ? data.title : `كتاب ${generateIdFromPath(file)}`,
               },
               content: {
-                en:
-                  data.language === "en"
-                    ? markdownContent
-                    : "Content available in Arabic only",
-                ar:
-                  data.language === "ar"
-                    ? markdownContent
-                    : "المحتوى متوفر باللغة الإنجليزية فقط",
+                en: data.language === "en" ? markdownContent : "Content available in Arabic only",
+                ar: data.language === "ar" ? markdownContent : "المحتوى متوفر باللغة الإنجليزية فقط",
               },
               description: {
-                en:
-                  data.language === "en"
-                    ? data.description
-                    : "Description available in Arabic only",
-                ar:
-                  data.language === "ar"
-                    ? data.description
-                    : "الوصف متوفر باللغة الإنجليزية فقط",
+                en: data.language === "en" ? data.description : "Description available in Arabic only",
+                ar: data.language === "ar" ? data.description : "الوصف متوفر باللغة الإنجليزية فقط",
               },
               author: data.author || "Unknown Author",
-              date: data.date
-                ? new Date(data.date).toISOString().split("T")[0]
-                : new Date().toISOString().split("T")[0],
+              date: data.date ? new Date(data.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
               genre: data.genre || "Spiritual",
               audience: data.audience || "General",
               formats: data.formats || ["Physical", "Digital"],
@@ -185,17 +122,15 @@ function readMarkdownFiles(dirPath, type) {
       }
     }
 
-    // Sort by date (newest first)
     items.sort((a, b) => new Date(b.date) - new Date(a.date));
   } catch (error) {
     console.error(`Error reading directory ${dirPath}:`, error);
   }
 
   return items;
-}
+};
 
 exports.handler = async (event, context) => {
-  // Set CORS headers
   const headers = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": "Content-Type",
@@ -203,7 +138,6 @@ exports.handler = async (event, context) => {
     "Content-Type": "application/json",
   };
 
-  // Handle preflight requests
   if (event.httpMethod === "OPTIONS") {
     return {
       statusCode: 200,
@@ -215,8 +149,8 @@ exports.handler = async (event, context) => {
   try {
     const { type, id } = event.queryStringParameters || {};
 
-    // Get the base path for the source files
-    const basePath = path.join(process.cwd(), "src", "data");
+    // ✅ Updated path to match Recap CMS content directory
+    const basePath = path.join(process.cwd(), "content");
 
     if (type === "articles") {
       const articlesPath = path.join(basePath, "articles");
