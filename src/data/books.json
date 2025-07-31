@@ -1,0 +1,54 @@
+[
+  {
+    "id": 1,
+    "title": {
+      "en": "Faith in Foreign Lands",
+      "ar": "الإيمان في الأراضي الغريبة"
+    },
+    "description": {
+      "en": "A comprehensive guide for Christians navigating life in diaspora, offering practical advice and spiritual encouragement.",
+      "ar": "دليل شامل للمسيحيين الذين يتنقلون في الحياة في الشتات، يقدم نصائح عملية وتشجيع روحي."
+    },
+    "author": "Dr. Maria Rodriguez",
+    "category": "Spiritual Growth",
+    "price": "$19.99",
+    "featured": true,
+    "image": "/api/placeholder/300/400",
+    "available": true
+  },
+  {
+    "id": 2,
+    "title": {
+      "en": "Prayers for the Journey",
+      "ar": "صلوات للرحلة"
+    },
+    "description": {
+      "en": "A collection of prayers specifically written for those living away from their homeland, seeking comfort and guidance.",
+      "ar": "مجموعة من الصلوات المكتوبة خصيصاً لأولئك الذين يعيشون بعيداً عن وطنهم، باحثين عن الراحة والإرشاد."
+    },
+    "author": "Rev. John Smith",
+    "category": "Prayer",
+    "price": "$14.99",
+    "featured": false,
+    "image": "/api/placeholder/300/400",
+    "available": true
+  },
+  {
+    "id": 3,
+    "title": {
+      "en": "Community Building in Christ",
+      "ar": "بناء المجتمع في المسيح"
+    },
+    "description": {
+      "en": "Learn how to create and nurture Christian communities in multicultural environments.",
+      "ar": "تعلم كيفية إنشاء ورعاية المجتمعات المسيحية في البيئات متعددة الثقافات."
+    },
+    "author": "Pastor David Kim",
+    "category": "Community",
+    "price": "$22.99",
+    "featured": true,
+    "image": "/api/placeholder/300/400",
+    "available": true
+  }
+]
+

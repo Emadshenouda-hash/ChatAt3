@@ -1,0 +1,63 @@
+[
+  {
+    "id": 1,
+    "title": {
+      "en": "Welcome to ChatAT Community",
+      "ar": "مرحباً بكم في مجتمع شتات"
+    },
+    "content": {
+      "en": "We are excited to launch ChatAT, a safe space for Christians in diaspora. Our mission is to provide hope, grace, and connection for those who have wandered but are not lost.",
+      "ar": "نحن متحمسون لإطلاق شتات، مساحة آمنة للمسيحيين في الشتات. مهمتنا هي توفير الأمل والنعمة والتواصل لأولئك الذين تاهوا لكنهم ليسوا ضائعين."
+    },
+    "excerpt": {
+      "en": "Introducing ChatAT - a new community for Christians in diaspora.",
+      "ar": "تقديم شتات - مجتمع جديد للمسيحيين في الشتات."
+    },
+    "author": "ChatAT Team",
+    "date": "2024-01-20",
+    "category": "Announcements",
+    "featured": true,
+    "image": "/api/placeholder/600/400"
+  },
+  {
+    "id": 2,
+    "title": {
+      "en": "Monthly Prayer Gathering - February",
+      "ar": "اجتماع الصلاة الشهري - فبراير"
+    },
+    "content": {
+      "en": "Join us for our monthly virtual prayer gathering where we come together as a community to pray for each other and share our testimonies.",
+      "ar": "انضموا إلينا في اجتماع الصلاة الافتراضي الشهري حيث نجتمع كمجتمع للصلاة من أجل بعضنا البعض ومشاركة شهاداتنا."
+    },
+    "excerpt": {
+      "en": "Join our monthly virtual prayer gathering this February.",
+      "ar": "انضموا إلى اجتماع الصلاة الافتراضي الشهري في فبراير."
+    },
+    "author": "Prayer Team",
+    "date": "2024-01-18",
+    "category": "Events",
+    "featured": false,
+    "image": "/api/placeholder/600/400"
+  },
+  {
+    "id": 3,
+    "title": {
+      "en": "Testimony: Finding Home in Faith",
+      "ar": "شهادة: العثور على الوطن في الإيمان"
+    },
+    "content": {
+      "en": "Sarah shares her powerful testimony about how she found a sense of home and belonging through faith while living in three different countries over the past decade.",
+      "ar": "تشارك سارة شهادتها القوية حول كيف وجدت إحساساً بالوطن والانتماء من خلال الإيمان أثناء العيش في ثلاث دول مختلفة خلال العقد الماضي."
+    },
+    "excerpt": {
+      "en": "A powerful testimony about finding home through faith across different countries.",
+      "ar": "شهادة قوية حول العثور على الوطن من خلال الإيمان عبر دول مختلفة."
+    },
+    "author": "Sarah M.",
+    "date": "2024-01-12",
+    "category": "Testimonies",
+    "featured": true,
+    "image": "/api/placeholder/600/400"
+  }
+]
+

@@ -1,0 +1,276 @@
+/* Custom animations for ChatAT website with spiritual color palette */
+
+/* Color Variables */
+:root {
+  --serene-blue: #3A6EA5;
+  --ivory-white: #FAFAF8;
+  --warm-sand: #E7DCC8;
+  --soft-rose: #EBA8A8;
+  --forest-green: #2D5948;
+  --gold-amber: #F5BE42;
+  --deep-plum: #6D214F;
+  --sky-teal: #7FC8A9;
+}
+
+/* Advanced Keyframe Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes parallaxFloat {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px);
+  }
+  25% {
+    transform: translateY(-5px) translateX(2px);
+  }
+  50% {
+    transform: translateY(-10px) translateX(0px);
+  }
+  75% {
+    transform: translateY(-5px) translateX(-2px);
+  }
+}
+
+@keyframes spiritualGlow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(245, 190, 66, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(245, 190, 66, 0.6), 0 0 35px rgba(245, 190, 66, 0.4);
+  }
+}
+
+@keyframes divineRadiance {
+  0%, 100% {
+    background: linear-gradient(135deg, var(--serene-blue), var(--sky-teal));
+  }
+  50% {
+    background: linear-gradient(135deg, var(--sky-teal), var(--serene-blue));
+  }
+}
+
+@keyframes typewriter {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink {
+  0%, 50% {
+    border-color: transparent;
+  }
+  51%, 100% {
+    border-color: var(--gold-amber);
+  }
+}
+
+@keyframes glassmorphism {
+  0% {
+    backdrop-filter: blur(10px);
+    background: rgba(250, 250, 248, 0.1);
+  }
+  100% {
+    backdrop-filter: blur(15px);
+    background: rgba(250, 250, 248, 0.2);
+  }
+}
+
+@keyframes iconPop {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes borderPulse {
+  0%, 100% {
+    border-color: var(--gold-amber);
+    box-shadow: 0 0 0 0 rgba(245, 190, 66, 0.4);
+  }
+  50% {
+    border-color: var(--sky-teal);
+    box-shadow: 0 0 0 10px rgba(127, 200, 169, 0.1);
+  }
+}
+
+@keyframes crossRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Animation Classes */
+.animate-fade-in-up {
+  animation: fadeInUp 1s ease-out;
+}
+
+.animate-parallax-float {
+  animation: parallaxFloat 6s ease-in-out infinite;
+}
+
+.animate-spiritual-glow {
+  animation: spiritualGlow 3s ease-in-out infinite;
+}
+
+.animate-divine-radiance {
+  animation: divineRadiance 4s ease-in-out infinite;
+}
+
+.animate-typewriter {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid;
+  animation: typewriter 3s steps(40) 1s forwards, blink 1s step-end infinite;
+}
+
+.animate-glassmorphism {
+  animation: glassmorphism 0.3s ease-out forwards;
+}
+
+.animate-icon-pop {
+  animation: iconPop 2s ease-in-out infinite;
+}
+
+.animate-border-pulse {
+  animation: borderPulse 2s ease-in-out infinite;
+}
+
+.animate-cross-rotate {
+  animation: crossRotate 20s linear infinite;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.8s ease-out;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.8s ease-out;
+}
+
+/* Staggered animations for cards */
+.card-1 { animation-delay: 0.1s; }
+.card-2 { animation-delay: 0.2s; }
+.card-3 { animation-delay: 0.3s; }
+.card-4 { animation-delay: 0.4s; }
+.card-5 { animation-delay: 0.5s; }
+.card-6 { animation-delay: 0.6s; }
+
+/* Advanced Hover Effects */
+.hover-lift:hover {
+  transform: translateY(-12px) scale(1.02);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.hover-spiritual-glow:hover {
+  box-shadow: 0 15px 35px rgba(245, 190, 66, 0.4);
+  transition: box-shadow 0.4s ease;
+}
+
+.hover-glassmorphism:hover {
+  backdrop-filter: blur(20px);
+  background: rgba(250, 250, 248, 0.25);
+  border: 1px solid rgba(245, 190, 66, 0.3);
+  transition: all 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+/* Glassmorphism Base Styles */
+.glassmorphism {
+  backdrop-filter: blur(10px);
+  background: rgba(250, 250, 248, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+}
+
+/* Spiritual Gradient Backgrounds */
+.bg-spiritual-gradient {
+  background: linear-gradient(135deg, var(--serene-blue), var(--sky-teal));
+}
+
+.bg-divine-gradient {
+  background: linear-gradient(135deg, var(--ivory-white), var(--warm-sand));
+}
+
+.bg-compassion-gradient {
+  background: linear-gradient(135deg, var(--soft-rose), var(--gold-amber));
+}
+
+.bg-growth-gradient {
+  background: linear-gradient(135deg, var(--forest-green), var(--sky-teal));
+}
+
+/* Text Effects */
+.text-spiritual-gradient {
+  background: linear-gradient(135deg, var(--serene-blue), var(--deep-plum));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-divine-gradient {
+  background: linear-gradient(135deg, var(--gold-amber), var(--soft-rose));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Responsive Animations */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* RTL Support for Animations */
+[dir="rtl"] .animate-slide-in-left {
+  animation: slideInRight 0.8s ease-out;
+}
+
+[dir="rtl"] .animate-slide-in-right {
+  animation: slideInLeft 0.8s ease-out;
+}
+

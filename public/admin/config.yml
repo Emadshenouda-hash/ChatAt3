@@ -1,0 +1,124 @@
+backend:
+  name: git-gateway
+  branch: main # Branch to update (optional; defaults to master)
+
+# Uncomment below to enable drafts
+# publish_mode: editorial_workflow
+
+media_folder: public/images/uploads # Media files will be stored in the repo under public/images/uploads
+public_folder: /images/uploads # The src attribute for uploaded media will begin with /images/uploads
+
+collections:
+  # Articles Collection
+  - name: "articles" # Used in routes, e.g., /admin/collections/articles
+    label: "Articles" # Used in the UI
+    folder: "src/data/articles" # The path to the folder where the documents are stored
+    create: true # Allow users to create new documents in this collection
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}" # Filename template, e.g., YYYY-MM-DD-title.md
+    fields: # The fields for each document, usually in front matter
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Language", name: "language", widget: "select", options: ["en", "ar"], default: "en"}
+      - {label: "Author", name: "author", widget: "string"}
+      - {label: "Publish Date", name: "date", widget: "datetime"}
+      - {label: "Featured Image", name: "image", widget: "image"}
+      - {label: "Excerpt", name: "excerpt", widget: "text"}
+      - {label: "Body", name: "body", widget: "markdown"}
+      - {label: "Tags", name: "tags", widget: "list", default: []}
+      - {label: "Category", name: "category", widget: "select", options: ["Faith", "Life", "Community", "Spiritual Growth", "Diaspora"], default: "Faith"}
+
+  # Blog Collection
+  - name: "blog" # Used in routes, e.g., /admin/collections/blog
+    label: "Blog Posts" # Used in the UI
+    folder: "src/data/blog" # The path to the folder where the documents are stored
+    create: true # Allow users to create new documents in this collection
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}" # Filename template, e.g., YYYY-MM-DD-title.md
+    fields: # The fields for each document, usually in front matter
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Language", name: "language", widget: "select", options: ["en", "ar"], default: "en"}
+      - {label: "Author", name: "author", widget: "string"}
+      - {label: "Publish Date", name: "date", widget: "datetime"}
+      - {label: "Featured Image", name: "image", widget: "image"}
+      - {label: "Excerpt", name: "excerpt", widget: "text"}
+      - {label: "Body", name: "body", widget: "markdown"}
+      - {label: "Tags", name: "tags", widget: "list", default: []}
+      - {label: "Category", name: "category", widget: "select", options: ["Stories", "Reflections", "Updates", "Testimonies", "Community News"], default: "Stories"}
+
+  # Books Collection
+  - name: "books" # Used in routes, e.g., /admin/collections/books
+    label: "Books" # Used in the UI
+    folder: "src/data/books" # The path to the folder where the documents are stored
+    create: true # Allow users to create new documents in this collection
+    slug: "{{slug}}" # Filename template
+    fields: # The fields for each document, usually in front matter
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Language", name: "language", widget: "select", options: ["en", "ar"], default: "en"}
+      - {label: "Author", name: "author", widget: "string"}
+      - {label: "ISBN", name: "isbn", widget: "string", required: false}
+      - {label: "Publication Date", name: "date", widget: "datetime"}
+      - {label: "Book Cover", name: "image", widget: "image"}
+      - {label: "Description", name: "description", widget: "text"}
+      - {label: "Full Content/Review", name: "body", widget: "markdown"}
+      - {label: "Genre", name: "genre", widget: "select", options: ["Spiritual", "Theology", "Biography", "Devotional", "Biblical Studies", "Christian Living"], default: "Spiritual"}
+      - {label: "Target Audience", name: "audience", widget: "select", options: ["General", "Youth", "Adults", "Seniors", "Families"], default: "General"}
+      - {label: "Available Formats", name: "formats", widget: "list", default: ["Physical", "Digital"]}
+
+  # Pages Collection (for static pages like About, Contact, etc.)
+  - name: "pages"
+    label: "Pages"
+    files:
+      - label: "About Page"
+        name: "about"
+        file: "src/data/pages/about.md"
+        fields:
+          - {label: "Title (English)", name: "title_en", widget: "string"}
+          - {label: "Title (Arabic)", name: "title_ar", widget: "string"}
+          - {label: "Content (English)", name: "content_en", widget: "markdown"}
+          - {label: "Content (Arabic)", name: "content_ar", widget: "markdown"}
+          - {label: "Featured Image", name: "image", widget: "image", required: false}
+      
+      - label: "Church Page"
+        name: "church"
+        file: "src/data/pages/church.md"
+        fields:
+          - {label: "Title (English)", name: "title_en", widget: "string"}
+          - {label: "Title (Arabic)", name: "title_ar", widget: "string"}
+          - {label: "Content (English)", name: "content_en", widget: "markdown"}
+          - {label: "Content (Arabic)", name: "content_ar", widget: "markdown"}
+          - {label: "Featured Image", name: "image", widget: "image", required: false}
+      
+      - label: "Surrender Page"
+        name: "surrender"
+        file: "src/data/pages/surrender.md"
+        fields:
+          - {label: "Title (English)", name: "title_en", widget: "string"}
+          - {label: "Title (Arabic)", name: "title_ar", widget: "string"}
+          - {label: "Content (English)", name: "content_en", widget: "markdown"}
+          - {label: "Content (Arabic)", name: "content_ar", widget: "markdown"}
+          - {label: "Featured Image", name: "image", widget: "image", required: false}
+
+  # Site Settings
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - label: "General Settings"
+        name: "general"
+        file: "src/data/settings/general.yml"
+        fields:
+          - {label: "Site Title (English)", name: "site_title_en", widget: "string"}
+          - {label: "Site Title (Arabic)", name: "site_title_ar", widget: "string"}
+          - {label: "Site Description (English)", name: "site_description_en", widget: "text"}
+          - {label: "Site Description (Arabic)", name: "site_description_ar", widget: "text"}
+          - {label: "Contact Email", name: "contact_email", widget: "string"}
+          - {label: "Social Media Links", name: "social_media", widget: "object", fields: [
+              {label: "Facebook", name: "facebook", widget: "string", required: false},
+              {label: "Instagram", name: "instagram", widget: "string", required: false},
+              {label: "YouTube", name: "youtube", widget: "string", required: false},
+              {label: "X (Twitter)", name: "twitter", widget: "string", required: false}
+            ]}
+          - {label: "Site Logo", name: "logo", widget: "image"}
+          - {label: "Favicon", name: "favicon", widget: "image"}
+
+# Editor settings
+editor:
+  preview: true # Enable preview pane
+

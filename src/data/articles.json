@@ -1,0 +1,63 @@
+[
+  {
+    "id": 1,
+    "title": {
+      "en": "Finding Hope in Diaspora",
+      "ar": "العثور على الأمل في الشتات"
+    },
+    "content": {
+      "en": "Living away from home can be challenging, but it's also an opportunity to grow in faith and discover new communities. This article explores how Christians in diaspora can find hope and build meaningful connections.",
+      "ar": "العيش بعيداً عن الوطن قد يكون تحدياً، لكنه أيضاً فرصة للنمو في الإيمان واكتشاف مجتمعات جديدة. هذا المقال يستكشف كيف يمكن للمسيحيين في الشتات أن يجدوا الأمل ويبنوا علاقات ذات معنى."
+    },
+    "excerpt": {
+      "en": "Discover how to find hope and community while living in diaspora.",
+      "ar": "اكتشف كيفية العثور على الأمل والمجتمع أثناء العيش في الشتات."
+    },
+    "author": "ChatAT Team",
+    "date": "2024-01-15",
+    "category": "Faith",
+    "featured": true,
+    "image": "/api/placeholder/600/400"
+  },
+  {
+    "id": 2,
+    "title": {
+      "en": "Building Community Across Cultures",
+      "ar": "بناء المجتمع عبر الثقافات"
+    },
+    "content": {
+      "en": "One of the beautiful aspects of being in diaspora is the opportunity to connect with people from different backgrounds while maintaining your faith identity. Learn practical ways to build inclusive communities.",
+      "ar": "من الجوانب الجميلة للعيش في الشتات هو الفرصة للتواصل مع أشخاص من خلفيات مختلفة مع الحفاظ على هويتك الإيمانية. تعلم طرق عملية لبناء مجتمعات شاملة."
+    },
+    "excerpt": {
+      "en": "Learn how to build inclusive communities while maintaining your faith identity.",
+      "ar": "تعلم كيفية بناء مجتمعات شاملة مع الحفاظ على هويتك الإيمانية."
+    },
+    "author": "Sarah Johnson",
+    "date": "2024-01-10",
+    "category": "Community",
+    "featured": false,
+    "image": "/api/placeholder/600/400"
+  },
+  {
+    "id": 3,
+    "title": {
+      "en": "Prayer in Times of Uncertainty",
+      "ar": "الصلاة في أوقات عدم اليقين"
+    },
+    "content": {
+      "en": "When facing uncertainty in a new country or culture, prayer becomes our anchor. This article provides guidance on maintaining a strong prayer life during challenging transitions.",
+      "ar": "عند مواجهة عدم اليقين في بلد أو ثقافة جديدة، تصبح الصلاة مرساتنا. هذا المقال يقدم إرشادات للحفاظ على حياة صلاة قوية خلال التحولات الصعبة."
+    },
+    "excerpt": {
+      "en": "Find strength through prayer during life's uncertain moments.",
+      "ar": "اعثر على القوة من خلال الصلاة خلال لحظات الحياة غير المؤكدة."
+    },
+    "author": "Michael Chen",
+    "date": "2024-01-05",
+    "category": "Prayer",
+    "featured": true,
+    "image": "/api/placeholder/600/400"
+  }
+]
+
