@@ -45,15 +45,15 @@ function readMarkdownFiles(dirPath, type) {
               id: generateIdFromPath(file),
               title: {
                 en: data.language === "en" ? data.title : `Article ${generateIdFromPath(file)}`,
-                ar: data.language === "ar" ? data.title : `مقال ${generateIdFromPath(file)}`,
+                ar: data.language === "ar" ? data.title : `مقال ${generateIdFromPath(file)}`
               },
               content: {
                 en: data.language === "en" ? markdownContent : "Content available in Arabic only",
-                ar: data.language === "ar" ? markdownContent : "المحتوى متوفر باللغة الإنجليزية فقط",
+                ar: data.language === "ar" ? markdownContent : "المحتوى متوفر باللغة الإنجليزية فقط"
               },
               excerpt: {
                 en: data.language === "en" ? data.excerpt : "Excerpt available in Arabic only",
-                ar: data.language === "ar" ? data.excerpt : "المقتطف متوفر باللغة الإنجليزية فقط",
+                ar: data.language === "ar" ? data.excerpt : "المقتطف متوفر باللغة الإنجليزية فقط"
               },
               author: data.author || "ChatAT Team",
               date: data.date ? new Date(data.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
@@ -61,22 +61,22 @@ function readMarkdownFiles(dirPath, type) {
               featured: false,
               image: data.image || "/api/placeholder/600/400",
               language: data.language || "en",
-              tags: data.tags || [],
+              tags: data.tags || []
             };
           } else if (type === "blog") {
             item = {
               id: generateIdFromPath(file),
               title: {
                 en: data.language === "en" ? data.title : `Blog Post ${generateIdFromPath(file)}`,
-                ar: data.language === "ar" ? data.title : `مقال مدونة ${generateIdFromPath(file)}`,
+                ar: data.language === "ar" ? data.title : `مقال مدونة ${generateIdFromPath(file)}`
               },
               content: {
                 en: data.language === "en" ? markdownContent : "Content available in Arabic only",
-                ar: data.language === "ar" ? markdownContent : "المحتوى متوفر باللغة الإنجليزية فقط",
+                ar: data.language === "ar" ? markdownContent : "المحتوى متوفر باللغة الإنجليزية فقط"
               },
               excerpt: {
                 en: data.language === "en" ? data.excerpt : "Excerpt available in Arabic only",
-                ar: data.language === "ar" ? data.excerpt : "المقتطف متوفر باللغة الإنجليزية فقط",
+                ar: data.language === "ar" ? data.excerpt : "المقتطف متوفر باللغة الإنجليزية فقط"
               },
               author: data.author || "ChatAT Team",
               date: data.date ? new Date(data.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
@@ -84,22 +84,22 @@ function readMarkdownFiles(dirPath, type) {
               featured: false,
               image: data.image || "/api/placeholder/600/400",
               language: data.language || "en",
-              tags: data.tags || [],
+              tags: data.tags || []
             };
           } else if (type === "books") {
             item = {
               id: generateIdFromPath(file),
               title: {
                 en: data.language === "en" ? data.title : `Book ${generateIdFromPath(file)}`,
-                ar: data.language === "ar" ? data.title : `كتاب ${generateIdFromPath(file)}`,
+                ar: data.language === "ar" ? data.title : `كتاب ${generateIdFromPath(file)}`
               },
               content: {
                 en: data.language === "en" ? markdownContent : "Content available in Arabic only",
-                ar: data.language === "ar" ? markdownContent : "المحتوى متوفر باللغة الإنجليزية فقط",
+                ar: data.language === "ar" ? markdownContent : "المحتوى متوفر باللغة الإنجليزية فقط"
               },
               description: {
                 en: data.language === "en" ? data.description : "Description available in Arabic only",
-                ar: data.language === "ar" ? data.description : "الوصف متوفر باللغة الإنجليزية فقط",
+                ar: data.language === "ar" ? data.description : "الوصف متوفر باللغة الإنجليزية فقط"
               },
               author: data.author || "Unknown Author",
               date: data.date ? new Date(data.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
@@ -109,7 +109,7 @@ function readMarkdownFiles(dirPath, type) {
               featured: false,
               image: data.image || "/api/placeholder/600/400",
               language: data.language || "en",
-              isbn: data.isbn || "",
+              isbn: data.isbn || ""
             };
           }
 
@@ -135,22 +135,22 @@ exports.handler = async (event, context) => {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": "Content-Type",
     "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-    "Content-Type": "application/json",
+    "Content-Type": "application/json"
   };
 
   if (event.httpMethod === "OPTIONS") {
     return {
       statusCode: 200,
       headers,
-      body: "",
+      body: ""
     };
   }
 
   try {
     const { type, id } = event.queryStringParameters || {};
 
-    // ✅ Updated path to match Recap CMS content directory
-    const basePath = path.join(process.cwd(), "content");
+    // 👇 Correct path restored for your actual folder structure
+    const basePath = path.join(process.cwd(), "src", "data");
 
     if (type === "articles") {
       const articlesPath = path.join(basePath, "articles");
@@ -159,24 +159,12 @@ exports.handler = async (event, context) => {
       if (id) {
         const article = articles.find((a) => a.id === parseInt(id));
         if (!article) {
-          return {
-            statusCode: 404,
-            headers,
-            body: JSON.stringify({ error: "Article not found" }),
-          };
+          return { statusCode: 404, headers, body: JSON.stringify({ error: "Article not found" }) };
         }
-        return {
-          statusCode: 200,
-          headers,
-          body: JSON.stringify(article),
-        };
+        return { statusCode: 200, headers, body: JSON.stringify(article) };
       }
 
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify(articles),
-      };
+      return { statusCode: 200, headers, body: JSON.stringify(articles) };
     }
 
     if (type === "blog") {
@@ -186,24 +174,12 @@ exports.handler = async (event, context) => {
       if (id) {
         const post = blogPosts.find((p) => p.id === parseInt(id));
         if (!post) {
-          return {
-            statusCode: 404,
-            headers,
-            body: JSON.stringify({ error: "Blog post not found" }),
-          };
+          return { statusCode: 404, headers, body: JSON.stringify({ error: "Blog post not found" }) };
         }
-        return {
-          statusCode: 200,
-          headers,
-          body: JSON.stringify(post),
-        };
+        return { statusCode: 200, headers, body: JSON.stringify(post) };
       }
 
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify(blogPosts),
-      };
+      return { statusCode: 200, headers, body: JSON.stringify(blogPosts) };
     }
 
     if (type === "books") {
@@ -213,42 +189,25 @@ exports.handler = async (event, context) => {
       if (id) {
         const book = books.find((b) => b.id === parseInt(id));
         if (!book) {
-          return {
-            statusCode: 404,
-            headers,
-            body: JSON.stringify({ error: "Book not found" }),
-          };
+          return { statusCode: 404, headers, body: JSON.stringify({ error: "Book not found" }) };
         }
-        return {
-          statusCode: 200,
-          headers,
-          body: JSON.stringify(book),
-        };
+        return { statusCode: 200, headers, body: JSON.stringify(book) };
       }
 
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify(books),
-      };
+      return { statusCode: 200, headers, body: JSON.stringify(books) };
     }
 
     return {
       statusCode: 400,
       headers,
-      body: JSON.stringify({
-        error: "Invalid type parameter. Use: articles, blog, or books",
-      }),
+      body: JSON.stringify({ error: "Invalid type parameter. Use: articles, blog, or books" })
     };
   } catch (error) {
     console.error("Function error:", error);
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify({
-        error: "Internal server error",
-        details: error.message,
-      }),
+      body: JSON.stringify({ error: "Internal server error", details: error.message })
     };
   }
 };
