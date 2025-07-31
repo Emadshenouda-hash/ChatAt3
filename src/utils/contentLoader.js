@@ -69,11 +69,16 @@ export async function loadBooks() {
 
 // Helper function to load CMS articles
 async function loadCMSArticles() {
-  const articles = []
-  
   try {
-    // In a real implementation, you would dynamically import all markdown files
-    // For now, we'll create a function that can be extended
+    // Try to fetch from Netlify function first
+    const response = await fetch('/.netlify/functions/get-content?type=articles')
+    if (response.ok) {
+      const articles = await response.json()
+      return articles
+    }
+    
+    // Fallback to static import method for local development
+    const articles = []
     const articleModules = import.meta.glob('../data/articles/*.md', { as: 'raw' })
     
     for (const path in articleModules) {
@@ -124,9 +129,16 @@ async function loadCMSArticles() {
 
 // Helper function to load CMS blog posts
 async function loadCMSBlog() {
-  const blogPosts = []
-  
   try {
+    // Try to fetch from Netlify function first
+    const response = await fetch('/.netlify/functions/get-content?type=blog')
+    if (response.ok) {
+      const blogPosts = await response.json()
+      return blogPosts
+    }
+    
+    // Fallback to static import method for local development
+    const blogPosts = []
     const blogModules = import.meta.glob('../data/blog/*.md', { as: 'raw' })
     
     for (const path in blogModules) {
@@ -174,9 +186,16 @@ async function loadCMSBlog() {
 
 // Helper function to load CMS books
 async function loadCMSBooks() {
-  const books = []
-  
   try {
+    // Try to fetch from Netlify function first
+    const response = await fetch('/.netlify/functions/get-content?type=books')
+    if (response.ok) {
+      const books = await response.json()
+      return books
+    }
+    
+    // Fallback to static import method for local development
+    const books = []
     const bookModules = import.meta.glob('../data/books/*.md', { as: 'raw' })
     
     for (const path in bookModules) {
