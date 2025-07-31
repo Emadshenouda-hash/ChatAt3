@@ -28,7 +28,7 @@ function readMarkdownFiles(dirPath, type) {
       console.log(`Directory ${dirPath} does not exist`);
       return items;
     }
-
+console.log("🪵 Looking in directory:", dirPath);
     const files = fs.readdirSync(dirPath);
 
     for (const file of files) {
