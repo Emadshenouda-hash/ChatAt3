@@ -2,11 +2,6 @@ const fs = require("fs");
 const path = require("path");
 const matter = require("gray-matter");
 
-// Helper function to process markdown content
-function processMarkdown(content) {
-  return content;
-}
-
 // Helper function to generate ID from filename
 function generateIdFromPath(filename) {
   const name = filename.replace(".md", "");
@@ -28,7 +23,7 @@ function readMarkdownFiles(dirPath, type) {
       console.log(`Directory ${dirPath} does not exist`);
       return items;
     }
-console.log("🪵 Looking in directory:", dirPath);
+
     const files = fs.readdirSync(dirPath);
 
     for (const file of files) {
@@ -38,83 +33,41 @@ console.log("🪵 Looking in directory:", dirPath);
           const content = fs.readFileSync(filePath, "utf8");
           const { data, content: markdownContent } = matter(content);
 
-          let item;
+          const language = data.language || "en";
+          const id = generateIdFromPath(file);
+
+          const commonFields = {
+            id,
+            title: data.title || `Untitled ${id}`,
+            content: markdownContent,
+            excerpt: data.excerpt || "",
+            author: data.author || "ChatAT Team",
+            date: data.date ? new Date(data.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
+            image: data.image || "/api/placeholder/600/400",
+            language,
+            tags: data.tags || [],
+            featured: false
+          };
 
           if (type === "articles") {
-            item = {
-              id: generateIdFromPath(file),
-              title: {
-                en: data.language === "en" ? data.title : `Article ${generateIdFromPath(file)}`,
-                ar: data.language === "ar" ? data.title : `مقال ${generateIdFromPath(file)}`
-              },
-              content: {
-                en: data.language === "en" ? markdownContent : "Content available in Arabic only",
-                ar: data.language === "ar" ? markdownContent : "المحتوى متوفر باللغة الإنجليزية فقط"
-              },
-              excerpt: {
-                en: data.language === "en" ? data.excerpt : "Excerpt available in Arabic only",
-                ar: data.language === "ar" ? data.excerpt : "المقتطف متوفر باللغة الإنجليزية فقط"
-              },
-              author: data.author || "ChatAT Team",
-              date: data.date ? new Date(data.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
-              category: data.category || "Faith",
-              featured: false,
-              image: data.image || "/api/placeholder/600/400",
-              language: data.language || "en",
-              tags: data.tags || []
-            };
+            items.push({
+              ...commonFields,
+              category: data.category || "Faith"
+            });
           } else if (type === "blog") {
-            item = {
-              id: generateIdFromPath(file),
-              title: {
-                en: data.language === "en" ? data.title : `Blog Post ${generateIdFromPath(file)}`,
-                ar: data.language === "ar" ? data.title : `مقال مدونة ${generateIdFromPath(file)}`
-              },
-              content: {
-                en: data.language === "en" ? markdownContent : "Content available in Arabic only",
-                ar: data.language === "ar" ? markdownContent : "المحتوى متوفر باللغة الإنجليزية فقط"
-              },
-              excerpt: {
-                en: data.language === "en" ? data.excerpt : "Excerpt available in Arabic only",
-                ar: data.language === "ar" ? data.excerpt : "المقتطف متوفر باللغة الإنجليزية فقط"
-              },
-              author: data.author || "ChatAT Team",
-              date: data.date ? new Date(data.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
-              category: data.category || "Stories",
-              featured: false,
-              image: data.image || "/api/placeholder/600/400",
-              language: data.language || "en",
-              tags: data.tags || []
-            };
+            items.push({
+              ...commonFields,
+              category: data.category || "Stories"
+            });
           } else if (type === "books") {
-            item = {
-              id: generateIdFromPath(file),
-              title: {
-                en: data.language === "en" ? data.title : `Book ${generateIdFromPath(file)}`,
-                ar: data.language === "ar" ? data.title : `كتاب ${generateIdFromPath(file)}`
-              },
-              content: {
-                en: data.language === "en" ? markdownContent : "Content available in Arabic only",
-                ar: data.language === "ar" ? markdownContent : "المحتوى متوفر باللغة الإنجليزية فقط"
-              },
-              description: {
-                en: data.language === "en" ? data.description : "Description available in Arabic only",
-                ar: data.language === "ar" ? data.description : "الوصف متوفر باللغة الإنجليزية فقط"
-              },
-              author: data.author || "Unknown Author",
-              date: data.date ? new Date(data.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
+            items.push({
+              ...commonFields,
+              description: data.description || "",
               genre: data.genre || "Spiritual",
               audience: data.audience || "General",
               formats: data.formats || ["Physical", "Digital"],
-              featured: false,
-              image: data.image || "/api/placeholder/600/400",
-              language: data.language || "en",
               isbn: data.isbn || ""
-            };
-          }
-
-          if (item) {
-            items.push(item);
+            });
           }
         } catch (fileError) {
           console.warn(`Failed to process file ${file}:`, fileError);
@@ -128,7 +81,7 @@ console.log("🪵 Looking in directory:", dirPath);
   }
 
   return items;
-};
+}
 
 exports.handler = async (event, context) => {
   const headers = {
@@ -148,60 +101,33 @@ exports.handler = async (event, context) => {
 
   try {
     const { type, id } = event.queryStringParameters || {};
-
-    // 👇 Correct path restored for your actual folder structure
     const basePath = path.join(__dirname, "..", "..", "src", "data");
 
+    let contentItems = [];
+
     if (type === "articles") {
-      const articlesPath = path.join(basePath, "articles");
-      const articles = readMarkdownFiles(articlesPath, "articles");
-
-      if (id) {
-        const article = articles.find((a) => a.id === parseInt(id));
-        if (!article) {
-          return { statusCode: 404, headers, body: JSON.stringify({ error: "Article not found" }) };
-        }
-        return { statusCode: 200, headers, body: JSON.stringify(article) };
-      }
-
-      return { statusCode: 200, headers, body: JSON.stringify(articles) };
+      contentItems = readMarkdownFiles(path.join(basePath, "articles"), "articles");
+    } else if (type === "blog") {
+      contentItems = readMarkdownFiles(path.join(basePath, "blog"), "blog");
+    } else if (type === "books") {
+      contentItems = readMarkdownFiles(path.join(basePath, "books"), "books");
+    } else {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ error: "Invalid type parameter. Use: articles, blog, or books" })
+      };
     }
 
-    if (type === "blog") {
-      const blogPath = path.join(basePath, "blog");
-      const blogPosts = readMarkdownFiles(blogPath, "blog");
-
-      if (id) {
-        const post = blogPosts.find((p) => p.id === parseInt(id));
-        if (!post) {
-          return { statusCode: 404, headers, body: JSON.stringify({ error: "Blog post not found" }) };
-        }
-        return { statusCode: 200, headers, body: JSON.stringify(post) };
+    if (id) {
+      const item = contentItems.find((entry) => entry.id === parseInt(id));
+      if (!item) {
+        return { statusCode: 404, headers, body: JSON.stringify({ error: `${type} item not found` }) };
       }
-
-      return { statusCode: 200, headers, body: JSON.stringify(blogPosts) };
+      return { statusCode: 200, headers, body: JSON.stringify(item) };
     }
 
-    if (type === "books") {
-      const booksPath = path.join(basePath, "books");
-      const books = readMarkdownFiles(booksPath, "books");
-
-      if (id) {
-        const book = books.find((b) => b.id === parseInt(id));
-        if (!book) {
-          return { statusCode: 404, headers, body: JSON.stringify({ error: "Book not found" }) };
-        }
-        return { statusCode: 200, headers, body: JSON.stringify(book) };
-      }
-
-      return { statusCode: 200, headers, body: JSON.stringify(books) };
-    }
-
-    return {
-      statusCode: 400,
-      headers,
-      body: JSON.stringify({ error: "Invalid type parameter. Use: articles, blog, or books" })
-    };
+    return { statusCode: 200, headers, body: JSON.stringify(contentItems) };
   } catch (error) {
     console.error("Function error:", error);
     return {
