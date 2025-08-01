@@ -91,12 +91,10 @@ function DynamicContentList({ t, type, loadFunction, language }) {
 }
 
 function ContentCard({ item, type, language, index }) {
-  // Get the appropriate title and excerpt based on language
-  const title = typeof item.title === 'object' ? item.title[language] || item.title.en : item.title
-  const excerpt = typeof item.excerpt === 'object' ? item.excerpt[language] || item.excerpt.en : item.excerpt
-  const description = typeof item.description === 'object' ? item.description[language] || item.description.en : item.description
+  const title = typeof item.title === 'object' ? item.title[language] || item.title.en : item.title || 'Untitled'
+  const excerpt = typeof item.excerpt === 'object' ? item.excerpt[language] || item.excerpt.en : item.excerpt || ''
+  const description = typeof item.description === 'object' ? item.description[language] || item.description.en : item.description || ''
 
-  // Format date
   const formatDate = (dateString) => {
     const date = new Date(dateString)
     if (language === 'ar') {
@@ -109,12 +107,12 @@ function ContentCard({ item, type, language, index }) {
     })
   }
 
-  // Generate slug from title for URL
-  const generateSlug = (title) => {
-    return title
+  const generateSlug = (text) => {
+    if (typeof text !== 'string') return 'untitled'
+    return text
       .toLowerCase()
-      .replace(/[^\w\s-]/g, '') // Remove special characters
-      .replace(/\s+/g, '-') // Replace spaces with hyphens
+      .replace(/[^\w\s-]/g, '')
+      .replace(/\s+/g, '-')
       .trim()
   }
 
@@ -198,4 +196,3 @@ function ContentCard({ item, type, language, index }) {
 }
 
 export default DynamicContentList
-
