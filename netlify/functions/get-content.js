@@ -13,6 +13,14 @@ function generateIdFromPath(filename) {
   return Math.abs(hash);
 }
 
+// Localized helper – always returns both en and ar
+function localized(value, lang) {
+  return {
+    en: lang === "en" ? value : "Not available in English yet",
+    ar: lang === "ar" ? value : "غير متوفر بالعربية حالياً"
+  };
+}
+
 function readMarkdownFiles(dirPath, type) {
   const items = [];
 
@@ -31,16 +39,11 @@ function readMarkdownFiles(dirPath, type) {
       const id = generateIdFromPath(file);
       const lang = data.language || "en";
 
-      const localized = (enVal, arVal, fallback) => ({
-        en: lang === "en" ? enVal : fallback,
-        ar: lang === "ar" ? arVal : fallback
-      });
-
       const common = {
         id,
-        title: localized(data.title, data.title, `Untitled ${id}`),
-        excerpt: localized(data.excerpt, data.excerpt, "Excerpt available in Arabic only"),
-        content: localized(markdownContent, markdownContent, "Content available in Arabic only"),
+        title: localized(data.title, lang),
+        excerpt: localized(data.excerpt, lang),
+        content: localized(markdownContent, lang),
         author: data.author || "ChatAT Team",
         date: data.date ? new Date(data.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
         image: data.image || "/api/placeholder/600/400",
@@ -56,7 +59,7 @@ function readMarkdownFiles(dirPath, type) {
       } else if (type === "books") {
         items.push({
           ...common,
-          description: localized(data.description, data.description, ""),
+          description: localized(data.description, lang),
           genre: data.genre || "Spiritual",
           audience: data.audience || "General",
           formats: data.formats || ["Physical", "Digital"],
