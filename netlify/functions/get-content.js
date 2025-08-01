@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const matter = require("gray-matter");
 
-// Generate consistent ID from filename
+// Helper to generate ID from filename
 function generateIdFromPath(filename) {
   const name = filename.replace(".md", "");
   let hash = 0;
@@ -16,10 +16,7 @@ function generateIdFromPath(filename) {
 function readMarkdownFiles(dirPath, type) {
   const items = [];
 
-  if (!fs.existsSync(dirPath)) {
-    console.log(`Directory ${dirPath} not found.`);
-    return items;
-  }
+  if (!fs.existsSync(dirPath)) return items;
 
   const files = fs.readdirSync(dirPath);
 
@@ -28,58 +25,53 @@ function readMarkdownFiles(dirPath, type) {
 
     try {
       const filePath = path.join(dirPath, file);
-      const fileContent = fs.readFileSync(filePath, "utf8");
-      const { data, content } = matter(fileContent);
+      const rawContent = fs.readFileSync(filePath, "utf8");
+      const { data, content: markdownContent } = matter(rawContent);
 
       const id = generateIdFromPath(file);
-      const language = data.language || "en";
-      const rawTitle = data.title || data.tte || ""; // catch both keys
-      const rawImage = data.image || "";
+      const lang = data.language || "en";
 
-      const item = {
+      const localized = (enVal, arVal, fallback) => ({
+        en: lang === "en" ? enVal : fallback,
+        ar: lang === "ar" ? arVal : fallback
+      });
+
+      const common = {
         id,
-        title: {
-          en: language === "en" ? rawTitle || `Untitled ${id}` : `Article ${id}`,
-          ar: language === "ar" ? rawTitle || `بدون عنوان ${id}` : `مقال ${id}`
-        },
-        content: {
-          en: language === "en" ? content : "Content available in Arabic only",
-          ar: language === "ar" ? content : "المحتوى متوفر باللغة الإنجليزية فقط"
-        },
-        excerpt: {
-          en: language === "en" ? data.excerpt || "" : "Excerpt available in Arabic only",
-          ar: language === "ar" ? data.excerpt || "" : "المقتطف متوفر باللغة الإنجليزية فقط"
-        },
+        title: localized(data.title, data.title, `Untitled ${id}`),
+        excerpt: localized(data.excerpt, data.excerpt, "Excerpt available in Arabic only"),
+        content: localized(markdownContent, markdownContent, "Content available in Arabic only"),
         author: data.author || "ChatAT Team",
         date: data.date ? new Date(data.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
-        image: rawImage.startsWith("/") ? rawImage : `/images/uploads/${rawImage}`,
-        language,
+        image: data.image || "/api/placeholder/600/400",
+        language: lang,
         tags: data.tags || [],
         featured: false
       };
 
       if (type === "articles") {
-        item.category = data.category || "Faith";
+        items.push({ ...common, category: data.category || "Faith" });
       } else if (type === "blog") {
-        item.category = data.category || "Stories";
+        items.push({ ...common, category: data.category || "Stories" });
       } else if (type === "books") {
-        item.description = data.description || "";
-        item.genre = data.genre || "Spiritual";
-        item.audience = data.audience || "General";
-        item.formats = data.formats || ["Physical", "Digital"];
-        item.isbn = data.isbn || "";
+        items.push({
+          ...common,
+          description: localized(data.description, data.description, ""),
+          genre: data.genre || "Spiritual",
+          audience: data.audience || "General",
+          formats: data.formats || ["Physical", "Digital"],
+          isbn: data.isbn || ""
+        });
       }
-
-      items.push(item);
     } catch (err) {
-      console.warn(`Failed to process file: ${file}`, err);
+      console.warn(`Failed to process file ${file}:`, err.message);
     }
   }
 
   return items.sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
-exports.handler = async (event) => {
+exports.handler = async (event, context) => {
   const headers = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": "Content-Type",
@@ -96,36 +88,24 @@ exports.handler = async (event) => {
     const basePath = path.join(__dirname, "..", "..", "src", "data");
 
     let contentItems = [];
-
-    if (type === "articles") {
-      contentItems = readMarkdownFiles(path.join(basePath, "articles"), "articles");
-    } else if (type === "blog") {
-      contentItems = readMarkdownFiles(path.join(basePath, "blog"), "blog");
-    } else if (type === "books") {
-      contentItems = readMarkdownFiles(path.join(basePath, "books"), "books");
-    } else {
-      return {
-        statusCode: 400,
-        headers,
-        body: JSON.stringify({ error: "Invalid type parameter. Use: articles, blog, or books." })
-      };
-    }
+    if (type === "articles") contentItems = readMarkdownFiles(path.join(basePath, "articles"), "articles");
+    else if (type === "blog") contentItems = readMarkdownFiles(path.join(basePath, "blog"), "blog");
+    else if (type === "books") contentItems = readMarkdownFiles(path.join(basePath, "books"), "books");
+    else return { statusCode: 400, headers, body: JSON.stringify({ error: "Invalid type parameter" }) };
 
     if (id) {
-      const item = contentItems.find((entry) => entry.id === parseInt(id));
-      if (!item) {
-        return { statusCode: 404, headers, body: JSON.stringify({ error: `${type} item not found` }) };
-      }
+      const item = contentItems.find(i => i.id === parseInt(id));
+      if (!item) return { statusCode: 404, headers, body: JSON.stringify({ error: `${type} item not found` }) };
       return { statusCode: 200, headers, body: JSON.stringify(item) };
     }
 
     return { statusCode: 200, headers, body: JSON.stringify(contentItems) };
-  } catch (err) {
-    console.error("Function error:", err);
+  } catch (error) {
+    console.error("Function error:", error);
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify({ error: "Internal server error", details: err.message })
+      body: JSON.stringify({ error: "Internal server error", details: error.message })
     };
   }
 };
